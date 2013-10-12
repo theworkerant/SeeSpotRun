@@ -29,6 +29,13 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.14)
+    barber (0.4.2)
+      ember-source
+      execjs
+      handlebars-source
+    barber-emblem (0.1.1)
+      barber (>= 0.4.1)
+      emblem-source
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
     cancan (1.6.10)
@@ -62,6 +69,22 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    ember-data-source (0.14)
+      ember-source
+    ember-rails (0.13.0)
+      active_model_serializers
+      barber (>= 0.4.1)
+      ember-data-source
+      ember-source
+      execjs (>= 1.2)
+      handlebars-source
+      railties (>= 3.1)
+    ember-source (1.0.0)
+      handlebars-source (= 1.0.12)
+    emblem-rails (0.1.1)
+      barber-emblem (~> 0.1.1)
+      ember-rails (>= 0.11.1)
+    emblem-source (0.3.2)
     erubis (2.7.0)
     excon (0.25.3)
     execjs (2.0.2)
@@ -76,6 +99,14 @@ GEM
       nokogiri (~> 1.5)
       ruby-hmac
     formatador (0.2.4)
+    haml (4.0.3)
+      tilt
+    haml-rails (0.4)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (>= 3.1, < 4.1)
+      railties (>= 3.1, < 4.1)
+    handlebars-source (1.0.12)
     hike (1.2.3)
     httparty (0.12.0)
       json (~> 1.8)
@@ -169,7 +200,9 @@ DEPENDENCIES
   debugger
   delayed_job_active_record
   devise
+  emblem-rails
   fog
+  haml-rails
   httparty
   mini_magick
   mysql2

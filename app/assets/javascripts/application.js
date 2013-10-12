@@ -15,6 +15,7 @@
 //= require lib/jquery.cookie
 //= require lib/moment.min
 //= require lib/progress_bar
+//= require lib/bootstrap
 
 // EMBER
 //= require lib/handlebars-1.0.0
@@ -34,5 +35,3 @@
 //= require_tree ./components
 //= require_tree ./helpers
 //= require_tree ./views
-
-//= require_tree .
