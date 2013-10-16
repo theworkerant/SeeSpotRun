@@ -8,4 +8,3 @@ $(document).ajaxComplete ->
   # End loading animation
   $("#progress").width("110%") #.delay(200).fadeOut 400, 
   $("#progress").html("")
-  $(document).foundation()

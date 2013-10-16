@@ -1,0 +1,1 @@
+SeeSpotRun.IndexController = Em.Controller.extend()

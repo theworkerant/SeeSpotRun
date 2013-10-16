@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def index
     @sessions = Session.all
-    respond_with @sessions
+    render json: @sessions
   end
 
   def show

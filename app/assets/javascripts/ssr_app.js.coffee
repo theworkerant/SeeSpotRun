@@ -7,5 +7,5 @@ DS.rejectionHandler = (reason) ->
     App.Auth.destroy()
   throw reason
 
-window.App = Ember.Application.create
+window.SeeSpotRun = Ember.Application.create
   rootElement: '#ember-app'

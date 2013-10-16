@@ -1,3 +1,4 @@
-# for more details see: http://emberjs.com/guides/models/defining-models/
-
-SeeSpotRun.Session = DS.Model.extend()
+SeeSpotRun.Session = DS.Model.extend
+  skills:     hasMany "skill"
+  isTemplate: attr "boolean"
+  

@@ -1,0 +1,1 @@
+SeeSpotRun.SkillsController = Em.ArrayController.extend()

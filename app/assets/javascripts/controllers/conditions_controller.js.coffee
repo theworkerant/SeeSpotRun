@@ -1,0 +1,1 @@
+SeeSpotRun.ConditionsController = Em.ArrayController.extend()

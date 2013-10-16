@@ -4,13 +4,10 @@ class SessionSerializer < ActiveModel::Serializer
   has_one :user, include: false
   has_one :routine, include: false
   
-  # has_many :skills, key: :skills
-  has_many :tools, key: :tools
+  has_many :skills, key: :skills
   
   attributes :id,
     # :user_id,
-    :duration,
-    :distraction,
     :is_template
 
 end
