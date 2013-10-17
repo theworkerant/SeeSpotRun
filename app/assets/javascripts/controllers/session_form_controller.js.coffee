@@ -1,2 +1,7 @@
-SeeSpotRun.SessionFormController = Em.ObjectController.extend()
+SeeSpotRun.SessionFormController = Em.ObjectController.extend
+  selectedSkill: null
+  
+  actions:
+    selectSkill: (skill) -> 
+      @set("selectedSkill", skill)
   

@@ -1,4 +1,4 @@
-SeeSpotRun.SessionFormView
+render "sessionForm"
 hr
 h2 Sessions
 ul: each session in view.sessions

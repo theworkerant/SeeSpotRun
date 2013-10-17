@@ -1,85 +1,27 @@
 h3 Session Form
-with view.content
 
-  form.form-inline submit="save"
-    fieldset
-      
-      / Skills involved
-      .row
-        .lg-3-col
-          
-          label First Name 
-          Ember.Checkbox valueBinding="first_name" class="form-first-name"
-          if errors.first_name
-            small= errors.first_name
-      
-      / Tools used
-      
-      / Duration
-      
-      / Distraction      
-      
-      / Repetition
-      
-      / Save as Routine?
-      .row
-        div class={errors.first_name:error :large-6 :columns}
-          label First Name 
-          Ember.TextField valueBinding="first_name" class="form-first-name"
-          if errors.first_name
-            small= errors.first_name
+form.form-inline submit="save"
+  fieldset
     
-      .row
-        div class={errors.first_name:error :large-6 :columns}
-          label First Name 
-          Ember.TextField valueBinding="first_name" class="form-first-name"
-          if errors.first_name
-            small= errors.first_name
+    / Skills involved
+    .row: .col-lg-12
+      h3 Select a Skill
+      each skill in appSkills
+        button.btn.btn-default click="selectSkill skill" = skill.name
+        |&nbsp;
           
-        div class={errors.last_name:error :large-6 :columns}
-          label Last Name
-          Ember.TextField valueBinding="last_name" class="form-last-name"
-          if errors.last_name
-            small= errors.last_name
+    .row: .col-lg-12
+      h5 Controls
+      each condition in selectedSkill.controlConditions
+        = condition.name
+        |&nbsp;
+    
+    / Duration
+  
+    / Distraction      
+  
+    / Repetition
+  
+    / Save as Routine?
 
-      .row
-        div class={errors.email:error :large-6 :columns}
-          label Email
-          Ember.TextField valueBinding="email" class="form-email"
-          if errors.email
-            small= errors.email
-      
-        div class={errors.password:error errors.password_confirmation:error :large-6 :columns}
-          label Password
-          Ember.TextField type="password" valueBinding="password" placeholder="Desired password" class="form-password"
-          if errors.password
-            small= errors.password
-          Ember.TextField type="password" valueBinding="password_confirmation" placeholder="Confirm Password" class="form-password-confirmation"
-          if errors.password_confirmation
-            small= errors.password_confirmation
-          
-
-      .row
-        .large-12.columns
-          h4 Your Shoe Size
-      .row
-        .large-7.columns.large-centered style="text-align:center;"
-          em If you are between sizes, we recommend you should go half a size down, not up (e.g. if you are a US size 7.5, choose size 37).
-          br
-          br
-      .row
-        div class={errors.shoe_size:error :small-6 :columns :shoe-size}
-          label Argentinian/Italian Size
-          Ember.Select contentBinding="metricSizes" valueBinding="sizeSelected" class="form-metric-size"
-        
-        .small-6.columns.shoe-size
-          label U.S. Size
-          Ember.Select contentBinding="usSizes" valueBinding="usSizeSelected" class="form-us-size"
-        
-      br
-      br
-      .row
-        .large-6.small-12.columns
-          linkTo "login" class="button secondary large-12 columns" | Back to Login
-        .large-6.small-12.columns
-          button.button.large-12.columns Register
+  skills 
