@@ -4,6 +4,8 @@ class CreateSkills < ActiveRecord::Migration
       t.string :name
       t.string :category
       t.integer :point_basis
+      t.integer :difficulty
+      t.text :description
 
       t.timestamps
     end

@@ -1,11 +1,12 @@
 class SkillSerializer < ActiveModel::Serializer
+  root false
   embed :ids, include: false
-  
-  has_many :conditions, key: :conditions
   
   attributes :id,
     :name,
     :category,
-    :point_basis
+    :point_basis,
+    :difficulty,
+    :restrictions
    
 end

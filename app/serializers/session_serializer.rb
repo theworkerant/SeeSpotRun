@@ -1,13 +1,12 @@
 class SessionSerializer < ActiveModel::Serializer
-  embed :ids, include: true
+  embed :ids
   
   has_one :user, include: false
-  has_one :routine, include: false
-  
-  has_many :skills, key: :skills
   
   attributes :id,
-    # :user_id,
-    :is_template
+  :skills_encoded,
+  :default_conditions_encoded
 
+  def skills_encoded; object.skills; end
+  def default_conditions_encoded; object.default_conditions; end
 end

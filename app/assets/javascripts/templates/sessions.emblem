@@ -6,8 +6,13 @@ ul: each session in view.sessions
     h3
       |#
       = session.id
+      |&nbsp;
+      small
+        |code: 
+        strong = session.skills_encoded
   h4 Skills
   ul: each skill in session.skills
+    
     li= skill.name
     h5 Conditions
     ul: each condition in skill.conditions

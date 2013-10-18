@@ -1,8 +1,13 @@
 <script type="text/javascript">
   window.rails_env            = "<%= Rails.env %>";
   window.site_url             = "<%= ENV["SITE_URL"] %>";
-  window.bootstrap_skills     = <%= Skill.all.reduce([]){|arr,x| arr << AppSkillSerializer.new(x)}.to_json.html_safe %>
+  window.bootstrap_skills     = <%= Skill.all.reduce([]){|arr,x| arr << SkillSerializer.new(x)}.to_json.html_safe %>
   window.bootstrap_conditions = <%= Condition.all.reduce([]){|arr,x| arr << ConditionSerializer.new(x, {root: false})}.to_json.html_safe %>
+  
+  window.bootstrap_skills_map        = <%= ::SKILL_IDS.to_json.html_safe %>
+  window.bootstrap_skills_names      = <%= ::SKILL_NAMES.to_json.html_safe %>
+  window.bootstrap_conditions_map    = <%= ::CONDITION_IDS.to_json.html_safe %>
+  window.bootstrap_conditions_names  = <%= ::CONDITION_NAMES.to_json.html_safe %>
   // window.stripe_publishable   = "<%= ENV['STRIPE_PUBLISHABLE'] %>";
   // window.google_analytics_id  = "<%= ENV['GOOGLE_ANALYTICS_ID'] %>";
 </script>

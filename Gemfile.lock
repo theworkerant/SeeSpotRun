@@ -37,6 +37,7 @@ GEM
       barber (>= 0.4.1)
       emblem-source
     bcrypt-ruby (3.1.2)
+    bitwise (0.6.0)
     builder (3.1.4)
     cancan (1.6.10)
     carrierwave (0.9.0)
@@ -193,6 +194,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.7.0)
+  bitwise
   cancan
   carrierwave
   coffee-rails (~> 4.0.0)

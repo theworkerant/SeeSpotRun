@@ -17,40 +17,21 @@ ActiveRecord::Schema.define(version: 20131016171458) do
     t.string   "name"
     t.string   "category"
     t.integer  "point_basis"
+    t.integer  "difficulty"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "session_skills", force: true do |t|
-    t.integer  "session_id"
-    t.integer  "skill_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "session_skills", ["session_id"], name: "index_session_skills_on_session_id", using: :btree
-  add_index "session_skills", ["skill_id"], name: "index_session_skills_on_skill_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.integer  "user_id"
-    t.integer  "routine_id"
-    t.boolean  "is_template"
+    t.string   "skill_mask"
+    t.string   "default_conditions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["routine_id"], name: "index_sessions_on_routine_id", using: :btree
   add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
-
-  create_table "skill_conditions", force: true do |t|
-    t.integer  "skill_id"
-    t.integer  "condition_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "skill_conditions", ["condition_id"], name: "index_skill_conditions_on_conditions_id", using: :btree
-  add_index "skill_conditions", ["skill_id"], name: "index_skill_conditions_on_skill_id", using: :btree
 
   create_table "skill_restricted_conditions", force: true do |t|
     t.integer  "skill_id"
@@ -66,6 +47,8 @@ ActiveRecord::Schema.define(version: 20131016171458) do
     t.string   "name"
     t.string   "category"
     t.integer  "point_basis"
+    t.integer  "difficulty"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
