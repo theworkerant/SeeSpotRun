@@ -25,7 +25,7 @@ SeeSpotRun.SkillAssociationsMixin = Em.Mixin.create
   .property()
   
   restrictions_mask: Em.computed ->
-    if @get("restrictions") then Mask.parse(@get("restrictions"),"condition") else SeeSpotRun.get("emptyConditionsMask")
+    if @get("restrictions") then Mask.decode(@get("restrictions"),"condition") else SeeSpotRun.get("emptyConditionsMask")
   .property("restrictions")
   
   activeMask: Em.computed ->

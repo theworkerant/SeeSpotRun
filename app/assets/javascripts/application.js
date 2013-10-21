@@ -17,6 +17,8 @@
 //= require lib/progress_bar
 //= require lib/bootstrap
 //= require lib/hex
+//= require lib/bigint
+//= require lib/bignumber
 //= require lib/bitmask
 
 

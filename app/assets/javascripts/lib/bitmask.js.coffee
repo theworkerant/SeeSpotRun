@@ -1,7 +1,10 @@
 window.Mask = 
-  parse: (hex, type) ->  
-    string  = hexToBinary(hex)
+  decode: (encoded, type) ->  
+    string = new BigNumber(encoded,36).toString(2)
     @adjust(string, type)
+    
+  encode: (mask, type) ->  
+    mask = new BigNumber(mask,2).toString(36)
 
   adjust: (string, type) ->
     switch type
