@@ -1,14 +1,14 @@
 # SeeSpotRun.SessionSkillsProxy = Em.ArrayProxy.extend
 #   conditions_mask: Em.computed ->
 #   .property()
-#   
+#
 #   skills_mask_obs: Em.observer ->
 #     encoded = parseInt(@get("skills_mask"),2)
 #     for i in [0..@get("skill_conditions").length-1]
 #       encoded += ":#{parseInt(@get("skill_conditions")[i],2)}"
 #     @set("skills_encoded", encoded)
 #   .observes("skills_mask")
-#   
+#
 #   default_conditions_mask: Em.computed ->
 #     if @get("default_conditions_encoded") then @get("default_conditions_encoded").toString(2) else SeeSpotRun.get("emptyConditionsMask")
 #   .property("default_conditions_encoded")
@@ -25,12 +25,12 @@ SeeSpotRun.SkillAssociationsMixin = Em.Mixin.create
   .property()
   
   restrictions_mask: Em.computed ->
-    if @get("restrictions") then parseConditionsMask(@get("restrictions")) else SeeSpotRun.get("emptyConditionsMask")
+    if @get("restrictions") then Mask.parse(@get("restrictions"),"condition") else SeeSpotRun.get("emptyConditionsMask")
   .property("restrictions")
   
   activeMask: Em.computed ->
     mask = parseInt(@get("conditions_mask"),2) & ~parseInt(@get("restrictions_mask"),2)
-    parseConditionsMask(mask)
+    Mask.adjust(mask.toString(2), "condition")
   .property("conditions_mask", "restrictions_mask")
   conditions: Em.computed ->
     ids = []

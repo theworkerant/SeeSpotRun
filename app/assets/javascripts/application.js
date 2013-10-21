@@ -16,6 +16,9 @@
 //= require lib/moment.min
 //= require lib/progress_bar
 //= require lib/bootstrap
+//= require lib/hex
+//= require lib/bitmask
+
 
 // EMBER
 //= require lib/handlebars-1.0.0

@@ -10,6 +10,6 @@ class Skill < ActiveRecord::Base
     restricted_conditions.each do |condition|
       mask.set_at(CONDITION_IDS.index(condition.id-offset))
     end
-    mask.bits.to_i(2)
+    mask.bits.to_i(2).to_s(16)
   end
 end
