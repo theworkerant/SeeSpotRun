@@ -23,18 +23,14 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
 
     if @session.save
-      redirect_to @session, notice: 'Session was successfully created.'
-    else
-      render action: 'new'
+      render json: {id: @session.id}, status: 200
     end
   end
 
   # PATCH/PUT /sessions/1
   def update
     if @session.update(session_params)
-      redirect_to @session, notice: 'Session was successfully updated.'
-    else
-      render action: 'edit'
+      render json: {id: @session.id}, status: 200
     end
   end
 
@@ -52,6 +48,6 @@ class SessionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def session_params
-      params[:session]
+      params[:session].permit(:skills)
     end
 end

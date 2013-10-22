@@ -1,4 +1,4 @@
-window.Mask = 
+window.Bitmask = 
   decode: (encoded, type) ->  
     string = new BigNumber(encoded,36).toString(2)
     @adjust(string, type)

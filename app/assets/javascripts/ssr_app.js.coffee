@@ -10,5 +10,6 @@ DS.rejectionHandler = (reason) ->
     App.Auth.destroy()
   throw reason
 
+Ember.FEATURES["query-params"] = true
 window.SeeSpotRun = Ember.Application.create
   rootElement: '#ember-app'

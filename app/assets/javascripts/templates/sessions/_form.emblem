@@ -1,0 +1,38 @@
+h3 Session Form
+a click="debugme" debugme
+
+form.form-inline submit="save"
+  fieldset
+    
+    / Skills involved
+    .row: .col-lg-12
+      h3 Select a Skill
+      each skill in allSkills
+        button class={ :btn :btn-default skill.selected:active} click="addSkill skill" = skill.name
+        |&nbsp;
+          
+    
+    .row: .col-lg-12
+      h4 
+        |Skills 
+        small= skills_encoded
+      each skill in skills
+        h5= skill.name
+      
+        h6 
+          |Controls 
+          small= skill.conditions_mask
+        each condition in skill.unrestrictedConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+          
+    br
+    button.btn.btn-primary type="submit" Save
+    
+    / Duration
+  
+    / Distraction      
+  
+    / Repetition
+  
+    / Save as Routine?

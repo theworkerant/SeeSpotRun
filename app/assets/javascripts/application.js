@@ -16,15 +16,15 @@
 //= require lib/moment.min
 //= require lib/progress_bar
 //= require lib/bootstrap
-//= require lib/hex
-//= require lib/bigint
 //= require lib/bignumber
 //= require lib/bitmask
+//= require lib/uuid
 
 
 // EMBER
 //= require lib/handlebars-1.0.0
 //= require lib/ember
+// require lib/ember_canary
 //= require lib/ember-data
 
 //= require_tree ./templates

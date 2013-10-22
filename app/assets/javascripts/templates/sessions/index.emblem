@@ -1,0 +1,17 @@
+h2 Sessions
+ul: each session in controller
+  li
+    h3
+      linkTo "sessions.session" session
+        |#
+        = session.id
+      |&nbsp;
+      small
+        |code: 
+        strong = session.skills_encoded
+  h4 
+    |Skills
+    |&nbsp;
+    each skill in session.skills
+      small= skill.name
+      |&nbsp;

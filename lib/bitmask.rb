@@ -1,4 +1,4 @@
-class Mask
+class Bitmask
   class << self
     
     def skills_id_map
