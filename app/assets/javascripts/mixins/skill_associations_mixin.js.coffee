@@ -1,5 +1,7 @@
 SeeSpotRun.ConditionProxy = Em.ObjectProxy.extend
   selected: Em.computed ->
+    console.log "active"
+    console.log @get "skill.activeMask"
     index = SeeSpotRun.get("conditionsIdMap").indexOf(parseInt(@get("id")))
     if parseInt(@get("skill.activeMask")[index]) then true else false
   .property("skill.activeMask")
@@ -20,8 +22,7 @@ SeeSpotRun.SkillAssociationsMixin = Em.Mixin.create
   .property("restrictions")
   
   activeMask: Em.computed ->
-    mask = parseInt(@get("conditions_mask"),2) & ~parseInt(@get("restrictions_mask"),2)
-    Bitmask.adjust(mask.toString(2), "condition")
+    Bitmask.activeComparison(@get("conditions_mask"), @get("restrictions_mask"))
   .property("conditions_mask", "restrictions_mask")
   
   conditions: Em.computed ->

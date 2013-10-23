@@ -5,7 +5,7 @@ window.Bitmask =
     
   encode: (mask, type) ->  
     mask = new BigNumber(mask,2).toString(36)
-
+    
   adjust: (mask, type) ->
     switch type
       when "skill"
@@ -17,3 +17,17 @@ window.Bitmask =
     while mask.length < size
       mask = "0" + mask
     mask
+
+  activeComparison: (conditions, restrictions) ->
+    index   = 0
+    result  = ""
+    
+    while conditions.length > index
+      cond_slice = parseInt(conditions[index],2)
+      rest_slice = parseInt(restrictions[index],2)
+      
+      result = result + (cond_slice & ~rest_slice).toString(2)
+      
+      index++
+      
+    result
