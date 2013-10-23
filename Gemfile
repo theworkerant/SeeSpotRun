@@ -5,6 +5,7 @@ gem 'rails', '4.0.0'
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
+gem "redis-rails"
 
 gem "delayed_job_active_record"
 gem "daemons" # for delayed_job

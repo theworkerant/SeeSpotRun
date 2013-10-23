@@ -4,11 +4,11 @@ class Skill < ActiveRecord::Base
   
   def restrictions
     mask = Bitwise.new
-    mask.bits = ::BLANK_CONDITIONS_MASK
+    mask.bits = Bitmask::BLANK_CONDITIONS_MASK
     
-    offset = ::BLANK_CONDITIONS_MASK.length - mask.bits.length
+    offset = Bitmask::BLANK_CONDITIONS_MASK.length - mask.bits.length
     restricted_conditions.each do |condition|
-      mask.set_at(CONDITION_IDS.index(condition.id-offset))
+      mask.set_at(Bitmask::CONDITION_IDS.index(condition.id-offset))
     end
     mask.bits.to_i(2).to_s(36)
   end

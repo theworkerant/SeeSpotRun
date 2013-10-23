@@ -6,14 +6,14 @@ window.Bitmask =
   encode: (mask, type) ->  
     mask = new BigNumber(mask,2).toString(36)
 
-  adjust: (string, type) ->
+  adjust: (mask, type) ->
     switch type
       when "skill"
         size  = SeeSpotRun.get("emptySkillsMask").length
       when "condition"
         size = SeeSpotRun.get("emptyConditionsMask").length
     
-    string  = string.substring(string.length-size)
-    while string.length < size
-      string = "0" + string
-    string
+    mask = mask.substring(mask.length-size)
+    while mask.length < size
+      mask = "0" + mask
+    mask
