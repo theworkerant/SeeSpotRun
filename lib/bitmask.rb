@@ -26,12 +26,12 @@ class Bitmask
     
   end
   
-  SKILL_IDS             = self.skills_id_map
-  SKILL_NAMES           = self.skills_name_map
+  SKILL_IDS             = self.skills_id_map.reverse
+  SKILL_NAMES           = self.skills_name_map.reverse
   BLANK_SKILLS_MASK     = "0"*SKILL_IDS.length
 
-  CONDITION_IDS         = self.conditions_id_map
-  CONDITION_NAMES       = self.conditions_name_map
+  CONDITION_IDS         = self.conditions_id_map.reverse
+  CONDITION_NAMES       = self.conditions_name_map.reverse
   BLANK_CONDITIONS_MASK = "0"*CONDITION_IDS.length
   
   attr_accessor :skills_mask, :skill_conditions
