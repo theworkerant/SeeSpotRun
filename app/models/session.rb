@@ -2,7 +2,7 @@ class Session < ActiveRecord::Base
   CHANGE_MEMORY = 2.week.ago
   belongs_to :user
   
-  def process(reprocess: false, notify: true)
+  def process(reprocess: false, notify: false)
     mask  = Bitmask.new(skills)
     
     Rails.logger.debug "should notify? #{notify} -- reprocess: #{reprocess} -- ##{self.id}"
@@ -10,7 +10,7 @@ class Session < ActiveRecord::Base
     redis         = Redis.new(:host => "127.0.0.1", :port => 6379)
     list_storage  = 99
     
-    points      = 0
+    points      = 143
     difficulty  = 5
     
     mask.skills.each do |skill|
@@ -50,6 +50,8 @@ class Session < ActiveRecord::Base
     # achievement processing
     
     # get previous session, decide streak
+    
+    Pusher.trigger("sessions", "session_processed", {message: "We processed your session and you got #{points} points! Amazzzssing!"}) if notify
   end
   def reprocess(delete: false)
     sessions  = self.class.where("created_at > ?", self.class::CHANGE_MEMORY).order("created_at ASC").limit(10)

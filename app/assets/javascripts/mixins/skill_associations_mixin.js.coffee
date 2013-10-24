@@ -1,7 +1,5 @@
 SeeSpotRun.ConditionProxy = Em.ObjectProxy.extend
   selected: Em.computed ->
-    console.log "active"
-    console.log @get "skill.activeMask"
     index = SeeSpotRun.get("conditionsIdMap").indexOf(parseInt(@get("id")))
     if parseInt(@get("skill.activeMask")[index]) then true else false
   .property("skill.activeMask")

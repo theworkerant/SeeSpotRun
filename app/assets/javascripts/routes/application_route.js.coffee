@@ -8,6 +8,7 @@ SeeSpotRun.Router.map ->
       
 SeeSpotRun.IndexRoute = Em.Route.extend
   # model: -> @store.find("session")
+  enter: -> @get("pusher").subscribe("sessions")
   setupController: (controller, model) ->
     controller.set "content", model
     @setupAjax()
@@ -26,6 +27,8 @@ SeeSpotRun.IndexRoute = Em.Route.extend
         if csrf_token then xhr.setRequestHeader('X-CSRF-Token', csrf_token)
     
   actions:
+    session_processed: (data) -> alert data.message
+      
     debugme: -> debugger
 
 SeeSpotRun.SessionsIndexRoute = Em.Route.extend

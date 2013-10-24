@@ -15,6 +15,7 @@ gem "cancan"
 
 gem "stripe"
 gem "httparty"
+gem "pusher"
 
 gem "active_model_serializers", "~> 0.7.0"
 

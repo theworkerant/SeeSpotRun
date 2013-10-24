@@ -31,6 +31,8 @@
 
 //= require ssr_app
 
+//= require lib/pusher
+
 //= require_tree ./routes
 //= require_tree ./mixins
 //= require_tree ./models

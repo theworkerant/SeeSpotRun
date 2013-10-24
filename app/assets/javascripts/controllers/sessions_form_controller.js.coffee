@@ -8,12 +8,12 @@ SeeSpotRun.SessionsFormController = Em.ObjectController.extend
   actions:
     save: ->
       $.ajax
-        type: "PUT"
+        type: if @get("id") then "PUT" else "POST"
         data: 
           session:
             skills: @get "skills_encoded"
             
-        url: "/sessions/#{@get("id")}"
+        url: if @get("id") then "/sessions/#{@get("id")}" else "/sessions"
         context: @
       .then(
         (response) ->

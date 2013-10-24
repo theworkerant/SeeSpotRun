@@ -21,14 +21,15 @@ class SessionsController < ApplicationController
 
   def create
     @session = Session.new(session_params)
-
     if @session.save
+      @session.process(notify: true)
       render json: {id: @session.id}, status: 200
     end
   end
 
   # PATCH/PUT /sessions/1
   def update
+    @session.reprocess()
     if @session.update(session_params)
       render json: {id: @session.id}, status: 200
     end
