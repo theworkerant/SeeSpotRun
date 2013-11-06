@@ -5,7 +5,7 @@ SeeSpotRun.SkillProxy = Em.ObjectProxy.extend
     if @session.get("skills_mask") and parseInt(@session.get("skills_mask")[index]) then true else false
   .property("session.skills_mask")
   
-SeeSpotRun.SessionAssociationsMixin = Em.Mixin.create
+SeeSpotRun.SkillsMixin = Em.Mixin.create
 
   init: ->
     @_super()
@@ -13,7 +13,7 @@ SeeSpotRun.SessionAssociationsMixin = Em.Mixin.create
     @set "allSkills", SeeSpotRun.SkillsProxy.create
       content: @store.all("skill").map (skill) -> 
           
-        SeeSpotRun.SkillProxy.extend(SeeSpotRun.SkillAssociationsMixin).create
+        SeeSpotRun.SkillProxy.extend(SeeSpotRun.ConditionsMixin).create
           store: @store
           session: @
           conditions_mask: SeeSpotRun.get("emptyConditionsMask")

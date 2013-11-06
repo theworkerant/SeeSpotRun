@@ -18,13 +18,56 @@ form.form-inline submit="save"
         small= skills_encoded
       each skill in skills
         h5= skill.name
-      
-        h6 
-          |Controls 
-          small= skill.conditions_mask
-        each condition in skill.unrestrictedConditions
+
+        / small= skill.conditions_mask
+        / br
+        / small= skill.restrictions_mask
+        / br
+        strong Controls
+        div: each condition in skill.controlConditions
           button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
           |&nbsp;
+        strong Aides
+        div: each condition in skill.aideConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Distractions
+        div: each condition in skill.distractionConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;          
+        strong Distance
+        div: each condition in skill.distanceConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Duration
+        div: each condition in skill.durationConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Frequency
+        div: each condition in skill.frequencyConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Signals
+        div: each condition in skill.signalConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Intensity
+        div: each condition in skill.intensityConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        strong Time of Day
+        div: each condition in skill.daytimeConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+          
+        strong Performance
+        div: each condition in skill.performanceConditions
+          button class={ :btn :btn-default :btn-xs condition.selected:active} click="addCondition skill condition" = condition.name
+          |&nbsp;
+        
+        
+      
+
           
     br
     button.btn.btn-primary type="submit" Save
