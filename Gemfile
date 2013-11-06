@@ -27,7 +27,7 @@ gem 'fog'
 # Use SCSS for stylesheets
 gem 'emblem-rails'
 gem 'sass-rails', '~> 4.0.0'
-gem 'haml-rails'
+gem 'slim'
 
 gem "bitwise"
 
