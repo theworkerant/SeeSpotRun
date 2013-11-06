@@ -99,6 +99,11 @@ GEM
     erubis (2.7.0)
     excon (0.25.3)
     execjs (2.0.2)
+    factory_girl (4.3.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.3.0)
+      factory_girl (~> 4.3.0)
+      railties (>= 3.0.0)
     ffi (1.9.3)
     fog (1.15.0)
       builder
@@ -276,6 +281,8 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   emblem-rails
+  factory_girl
+  factory_girl_rails
   fog
   guard-rspec
   httparty

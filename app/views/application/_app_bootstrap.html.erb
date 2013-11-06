@@ -4,10 +4,8 @@
   window.bootstrap_skills     = <%= Skill.all.reduce([]){|arr,x| arr << SkillSerializer.new(x)}.to_json.html_safe %>
   window.bootstrap_conditions = <%= Condition.all.reduce([]){|arr,x| arr << ConditionSerializer.new(x, {root: false})}.to_json.html_safe %>
   
-  window.bootstrap_skills_map         = <%= Bitmask::SKILL_IDS.to_json.html_safe %>
-  window.bootstrap_skills_names       = <%= Bitmask::SKILL_NAMES.to_json.html_safe %>
-  window.bootstrap_conditions_map     = <%= Bitmask::CONDITION_IDS.to_json.html_safe %>
-  window.bootstrap_conditions_names   = <%= Bitmask::CONDITION_NAMES.to_json.html_safe %>
+  window.bootstrap_skills_map         = <%= Bitmask.skills_id_map.to_json.html_safe %>
+  window.bootstrap_conditions_map     = <%= Bitmask.conditions_id_map.to_json.html_safe %>
   
   window.bootstrap_pusher_key         = "<%= Pusher.key %>"
   // window.stripe_publishable   = "<%= ENV['STRIPE_PUBLISHABLE'] %>";

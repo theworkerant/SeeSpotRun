@@ -44,6 +44,8 @@ group :test, :development do
   gem "rspec-rails"
   gem "guard-rspec"
   gem "capybara"
+  gem "factory_girl"
+  gem "factory_girl_rails"
 end
 
 group :doc do

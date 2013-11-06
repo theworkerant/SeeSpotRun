@@ -1,42 +1,30 @@
-class Bitmask
+ class Bitmask
 
   class << self
     
     def skills_id_map
       Skill.order("id ASC").to_a.reduce([]) do |map, skill|
         map << skill.id
-      end
-    end
-    def skills_name_map
-      Skill.order("id ASC").to_a.reduce([]) do |map, skill|
-        map << skill.name
-      end
+      end.reverse
+    end    
+    def blank_skills_mask
+      "0"*self.skills_id_map.length
     end
     
     def conditions_id_map
       Condition.order("id ASC").to_a.reduce([]) do |map, condition|
         map << condition.id
-      end
+      end.reverse
     end
-    def conditions_name_map
-      Condition.order("id ASC").to_a.reduce([]) do |map, condition|
-        map << condition.name
-      end
+    def blank_conditions_mask
+      "0"*self.conditions_id_map.length
     end
     
   end
   
-  SKILL_IDS             = self.skills_id_map.reverse
-  SKILL_NAMES           = self.skills_name_map.reverse
-  BLANK_SKILLS_MASK     = "0"*SKILL_IDS.length
-
-  CONDITION_IDS         = self.conditions_id_map.reverse
-  CONDITION_NAMES       = self.conditions_name_map.reverse
-  BLANK_CONDITIONS_MASK = "0"*CONDITION_IDS.length
-  
   attr_accessor :skills_mask, :skill_conditions
   
-  def initialize(encoded_bitmask)
+  def initialize(encoded_bitmask="")
     @skills_mask      = Bitwise.new()
     @skill_conditions = []
     
@@ -50,36 +38,37 @@ class Bitmask
     end
   end
   
+  def skill_ids
+    self.class.skills_id_map.values_at(*@skills_mask.indexes).compact
+  end
+  def skills
+    Skill.where(id: skill_ids)
+  end
+  def condition_ids(skill)
+    id = self.class.skills_id_map.index(skill.id)
+    mask = @skill_conditions[@skills_mask.indexes.index(id)]
+    self.class.conditions_id_map.values_at(*mask.indexes).compact
+  end
+  def conditions(skill)
+    Condition.where(id: condition_ids(skill))
+  end
+  
+  private 
   def adjust_mask(mask, type)
     size = case type
     when "skill"
-      BLANK_SKILLS_MASK.length
+      self.class.blank_skills_mask.length
     when "condition"
-      BLANK_CONDITIONS_MASK.length
+      self.class.blank_conditions_mask.length
     end
 
-    mask = mask[mask.length-size..-1] if mask.length > size
+    # mask = mask[mask.length-size..-1] if mask.length > size
     while mask.length < size do
       mask = "0" + mask
     end
     b=Bitwise.new()
     b.bits = mask
     b
-  end
-  
-  def skill_ids
-    SKILL_IDS.values_at(*@skills_mask.indexes).compact
-  end
-  def skills
-    Skill.where(id: skill_ids)
-  end
-  def condition_ids(skill)
-    id = SKILL_IDS.index(skill.id)
-    mask = @skill_conditions[@skills_mask.indexes.index(id)]
-    CONDITION_IDS.values_at(*mask.indexes).compact
-  end
-  def conditions(skill)
-    Condition.where(id: condition_ids(skill))
   end
   
 end
