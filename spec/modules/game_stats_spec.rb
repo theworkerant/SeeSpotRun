@@ -40,6 +40,12 @@ describe GameStats do
     end
     
     context "reversal" do
+      it "pops an item from the points list" do
+        subject.point_tally user, skill, 11
+        subject.point_tally user, skill, 12
+        subject.point_tally user, skill, 0, reverse:true
+        expect(REDIS.lrange(list_key, 0, 10)).to eq ["11"]
+      end
       it "decrements total points tally" do
         subject.point_tally user, skill, 42
         expect(point_tally.call).to eq "42"
@@ -140,8 +146,16 @@ describe GameStats do
       subject.skill_performance user, skill, 20
       expect(REDIS.lindex(list_key, 0)).to eq "20"
     end
+    
+    context "reversal" do
+      it "pops an item from the performance list" do
+        subject.skill_performance user, skill, 5
+        subject.skill_performance user, skill, 6
+        subject.skill_performance user, skill, 0, reverse:true
+        expect(REDIS.lrange(list_key, 0, 10)).to eq ["5"]
+      end
+    end
   end
-  
   
   describe "#difficulty_performance" do
     before(:each) do
@@ -167,6 +181,15 @@ describe GameStats do
       
       subject.difficulty_performance user, skill, 6
       expect(REDIS.lindex(list_key, 0)).to eq "6"
+    end
+    
+    context "reversal" do
+      it "pops an item from the difficulty list" do
+        subject.difficulty_performance user, skill, 3
+        subject.difficulty_performance user, skill, 4
+        subject.difficulty_performance user, skill, 0, reverse:true
+        expect(REDIS.lrange(list_key, 0, 10)).to eq ["3"]
+      end
     end
   end
   

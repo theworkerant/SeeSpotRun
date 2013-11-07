@@ -18,17 +18,20 @@ end
 
 FactoryGirl.define do
   factory :user do
-    sequence :id
-    first_name "Bob"
-    last_name "Loblaw"
-    
+    email "test@test.com"
+    password "testing123"
+    password_confirmation "testing123"
   end
 end
 
 FactoryGirl.define do
   factory :session do
-    sequence :id
-    first_name "Bob"
-    last_name "Loblaw"
+    user
+    skills "1.1" # 1st skill, 1st condition
+    
+    before(:create) do |session, evaluator|
+      2.times {FactoryGirl.create :skill}
+      FactoryGirl.create :condition
+    end
   end
 end

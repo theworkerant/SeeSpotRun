@@ -79,11 +79,10 @@ GEM
     delayed_job_active_record (4.0.0)
       activerecord (>= 3.0, < 4.1)
       delayed_job (>= 3.0, < 4.1)
-    devise (3.1.1)
+    devise (3.0.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
-      thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
     ember-data-source (0.14)
@@ -294,7 +293,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   delayed_job_active_record
-  devise
+  devise (= 3.0.0)
   emblem-rails
   factory_girl
   factory_girl_rails

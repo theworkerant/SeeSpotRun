@@ -1,31 +1,38 @@
 class Session < ActiveRecord::Base
+  include GameStats
   CHANGE_MEMORY = 2.week.ago
   belongs_to :user
   
-  def process(reprocess: false, notify: false)
-    mask  = Bitmask.new(skills)
+  after_create    :process
+  before_save     :needs_reprocessing?
+  before_destroy  :reprocess_for_destroy
+  
+  def process(reverse: false)
+    mask = Bitmask.new(skills)
     
-    Rails.logger.debug "should notify? #{notify} -- reprocess: #{reprocess} -- ##{self.id}"
-    
-    list_storage  = 99
-    
-    points      = 143
-    difficulty  = 5
+    points      = 0
+    difficulty  = 0
     
     mask.skills.each do |skill|
-      skill_tally(user, skill)
+      skill_tally user, skill, reverse
+      
+      points      += skill.point_basis
+      difficulty  += skill.difficulty
         
       mask.conditions(skill).each do |condition|
-        condition_tally(user, skill, condition)
-        skill_performance(user, skill, condition.point_basis) if condition.category == "performance"
+        condition_tally user, skill, condition, reverse
+        
+        skill_performance(user, skill, condition.point_basis, reverse) if condition.category == "performance"
+        
+        points      += condition.point_basis
+        difficulty  += condition.difficulty
       end
       
       # calculate difficulty somehow
-      difficulty_performance(user, skill, difficulty)
+      difficulty_performance user, skill, difficulty, reverse
       
       # Points overall
-      point_tally user, skill, points
-      
+      point_tally user, skill, points, reverse
     end
     
     # track improvement based on self-reported performance
@@ -35,42 +42,24 @@ class Session < ActiveRecord::Base
     # get previous session, decide streak
     
     # TODO This shouldn't go here, probably?
-    Pusher.trigger("sessions", "session_processed", {message: "We processed your session and you got #{points} points! Amazzzssing!"}) if notify and Rails.env != "test"
+    # Pusher.trigger("sessions", "session_processed", {message: "We processed your session and you got #{points} points! Amazzzssing!"}) if notify and Rails.env != "test"
   end
   def reprocess(delete: false)
-    sessions  = self.class.where("created_at > ?", self.class::CHANGE_MEMORY).order("created_at ASC").limit(10)
+    sessions  = self.class.where("created_at > ?", self.class::CHANGE_MEMORY).order("created_at ASC")
     index     = sessions.index(self)
     
-    sessions[0..index].each do |session|
-      session.reverse
-    end
-    sessions[0..index].reverse.each_with_index do |session|
-      session.process(reprocess: true, notify: (self == session)) unless delete and self == session
+    # reverse all relevant sessions, then reprocess in reverse order
+    sessions[0..index].each { |session| session.process(reverse:true) }
+    sessions[0..index].reverse.each do |session|
+      session.process unless delete and self == session
     end
   end
-  def reverse
-    mask = Bitmask.new(skills)
-    redis = Redis.new(:host => "127.0.0.1", :port => 6379)
-    
-    points      = 0
-    difficulty  = 5
-    
-    mask.skills.each do |skill|
-      
-      # Tallies
-      REDIS.hincrby "user:1:tallies", "skill:#{skill.id}", -1
-      REDIS.hincrby "user:1:tallies", "category:#{skill.category}", -1
-      
-      mask.conditions(skill).each do |condition|
-        # Condition Tallies
-        REDIS.hincrby "user:1:tallies", "skill:#{skill.id}:condition:#{condition.id}", -1
-        REDIS.hincrby "user:1:tallies", "condition:#{condition.id}", -1
-        
-        REDIS.lpop "user:1:performance:#{skill.id}" # Skill performance
-      end
-      
-      REDIS.lpop    "user:1:difficulty:#{skill.id}" # Difficulty
-      REDIS.lpop    "user:1:points:#{skill.id}"     # Points
-    end
+  
+  private
+  def needs_reprocessing?
+    self.reprocess if self.skills_changed? and not self.new_record?
+  end
+  def reprocess_for_destroy
+    self.reprocess(delete: true)
   end
 end

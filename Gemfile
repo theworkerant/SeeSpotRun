@@ -10,7 +10,7 @@ gem "redis-rails"
 gem "delayed_job_active_record"
 gem "daemons" # for delayed_job
 
-gem 'devise'
+gem "devise", "3.0.0"
 gem "cancan"
 
 gem "stripe"
