@@ -2,11 +2,12 @@
   .row
     .col-md-12
       h1 See Spot Run
-      a click="debugme" debugme
-      |&nbsp;
-      linkTo "sessions.index" |Sessions
-      |&nbsp;
-      linkTo "sessions.new" |New Session
+      .menu
+        a click="debugme" debugme
+        |&nbsp;
+        linkTo "sessions.index" class="sessions" |Sessions
+        |&nbsp;
+        linkTo "sessions.new" class="new-session" |New Session
     .col-md-6
       h4 App Stuff
       each skill in appSkills

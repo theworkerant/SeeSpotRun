@@ -7,41 +7,24 @@ class Session < ActiveRecord::Base
     
     Rails.logger.debug "should notify? #{notify} -- reprocess: #{reprocess} -- ##{self.id}"
     
-    redis         = Redis.new(:host => "127.0.0.1", :port => 6379)
     list_storage  = 99
     
     points      = 143
     difficulty  = 5
     
     mask.skills.each do |skill|
-      # Tallies
-      redis.hincrby "user:1:tallies", "skill:#{skill.id}", 1
-      redis.hincrby "user:1:tallies", "category:#{skill.category}", 1
+      skill_tally(user, skill)
         
       mask.conditions(skill).each do |condition|
-        # Condition Tallies
-        redis.hincrby "user:1:tallies", "skill:#{skill.id}:condition:#{condition.id}", 1
-        redis.hincrby "user:1:tallies", "condition:#{condition.id}", 1
-        
-        # Skill performance
-        redis.lpush "user:1:performance:#{skill.id}", condition.point_basis if condition.category == "performance"
-        redis.ltrim "user:1:performance:#{skill.id}", 0, list_storage*10 # assume ten times as many skills entryies as sessions
+        condition_tally(user, skill, condition)
+        skill_performance(user, skill, condition.point_basis) if condition.category == "performance"
       end
       
-      # Difficulty
-      # if reprocess
-      #   difficulty_list = redis.lrange "user:1:difficulty:#{skill.id}", 0, list_storage
-      #   redis.ltrim "user:1:difficulty:#{skill.id}", 1, 0 # killit
-      #   difficulty_list.insert(index, difficulty+1)
-      #   redis.lpush difficulty_list
-      # else
-        redis.lpush "user:1:difficulty:#{skill.id}", difficulty
-        redis.ltrim "user:1:difficulty:#{skill.id}", 0, list_storage
-      # end
+      # calculate difficulty somehow
+      difficulty_performance(user, skill, difficulty)
       
       # Points overall
-      redis.lpush "user:1:points:#{skill.id}", points
-      redis.ltrim "user:1:points:#{skill.id}", 0, list_storage
+      point_tally user, skill, points
       
     end
     
@@ -51,7 +34,8 @@ class Session < ActiveRecord::Base
     
     # get previous session, decide streak
     
-    Pusher.trigger("sessions", "session_processed", {message: "We processed your session and you got #{points} points! Amazzzssing!"}) if notify
+    # TODO This shouldn't go here, probably?
+    Pusher.trigger("sessions", "session_processed", {message: "We processed your session and you got #{points} points! Amazzzssing!"}) if notify and Rails.env != "test"
   end
   def reprocess(delete: false)
     sessions  = self.class.where("created_at > ?", self.class::CHANGE_MEMORY).order("created_at ASC").limit(10)
@@ -74,19 +58,19 @@ class Session < ActiveRecord::Base
     mask.skills.each do |skill|
       
       # Tallies
-      redis.hincrby "user:1:tallies", "skill:#{skill.id}", -1
-      redis.hincrby "user:1:tallies", "category:#{skill.category}", -1
+      REDIS.hincrby "user:1:tallies", "skill:#{skill.id}", -1
+      REDIS.hincrby "user:1:tallies", "category:#{skill.category}", -1
       
       mask.conditions(skill).each do |condition|
         # Condition Tallies
-        redis.hincrby "user:1:tallies", "skill:#{skill.id}:condition:#{condition.id}", -1
-        redis.hincrby "user:1:tallies", "condition:#{condition.id}", -1
+        REDIS.hincrby "user:1:tallies", "skill:#{skill.id}:condition:#{condition.id}", -1
+        REDIS.hincrby "user:1:tallies", "condition:#{condition.id}", -1
         
-        redis.lpop "user:1:performance:#{skill.id}" # Skill performance
+        REDIS.lpop "user:1:performance:#{skill.id}" # Skill performance
       end
       
-      redis.lpop    "user:1:difficulty:#{skill.id}" # Difficulty
-      redis.lpop    "user:1:points:#{skill.id}"     # Points
+      REDIS.lpop    "user:1:difficulty:#{skill.id}" # Difficulty
+      REDIS.lpop    "user:1:points:#{skill.id}"     # Points
     end
   end
 end

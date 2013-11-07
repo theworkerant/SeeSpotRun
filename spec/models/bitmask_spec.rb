@@ -1,13 +1,9 @@
 require "spec_helper"
 
 describe Bitmask do  
-  around do |example|
-    3.times {|i| FactoryGirl.create(:skill, {id: i+10}) } # offset IDs for testing fun
-    3.times {|i| FactoryGirl.create(:condition, {id: i+20}) } # offset IDs for testing fun
-    example.run
-    FactoryGirl.reload
-    Skill.destroy_all
-    Condition.destroy_all
+  before(:each) do
+    3.times {|i| create(:skill, {id: i+10}) } # offset IDs for testing fun
+    3.times {|i| create(:condition, {id: i+20}) } # offset IDs for testing fun
   end
   
   describe ".skills_id_map" do    

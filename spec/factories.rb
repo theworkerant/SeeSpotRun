@@ -15,3 +15,20 @@ FactoryGirl.define do
     difficulty 1
   end
 end
+
+FactoryGirl.define do
+  factory :user do
+    sequence :id
+    first_name "Bob"
+    last_name "Loblaw"
+    
+  end
+end
+
+FactoryGirl.define do
+  factory :session do
+    sequence :id
+    first_name "Bob"
+    last_name "Loblaw"
+  end
+end

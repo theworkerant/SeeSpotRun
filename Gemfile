@@ -46,6 +46,9 @@ group :test, :development do
   gem "capybara"
   gem "factory_girl"
   gem "factory_girl_rails"
+  gem "database_cleaner"
+  gem "capybara-webkit"
+  gem "selenium-webdriver"
 end
 
 group :doc do
