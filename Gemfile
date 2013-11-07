@@ -49,6 +49,7 @@ group :test, :development do
   gem "database_cleaner"
   gem "capybara-webkit"
   gem "selenium-webdriver"
+  gem "timecop"
 end
 
 group :doc do

@@ -35,19 +35,57 @@ describe Session do
   describe "#reprocess" do    
     subject { create :session, {user: user, skills: "1.1"} }
     
-    before(:each) do
-      3.times {create(:session, {user: user}) } # each creates as skill and condition as well
-    end
-    
     it "updates score when skills have changed" do
       score = point_tally.call.to_i
-      subject.update_attribute :skills, "2.1.1"
+      subject.update_attributes skills: "2.1.1"
       expect(point_tally.call.to_i).to be > score
     end
     
-    context "session is past the change memory" do
-      pending
+    it "reprocess unchanged sessions between selected session" do      
+      other_session = create(:session, {user: user})
+      subject
+      Timecop.travel(1.minute.from_now) { subject.update_attributes skills: "2.1.1" }
+      other_session.reload
+      expect(other_session.updated_at.to_i).to be > other_session.created_at.to_i
     end
+    
+    it "still works when there aren't any other sessions to reprocess" do
+      subject
+      3.times {create(:session, {user: user, created_at: 1.year.ago}) }
+      subject.update_attributes skills: "2.1.1"
+    end
+    
+    context "on destroy" do
+      it "reverses scores and does not reprocess that session" do
+        3.times {create(:session, {user: user}) }
+        score = point_tally.call.to_i
+        Session.first.destroy
+        expect(point_tally.call.to_i).to be < score
+        expect(point_tally.call.to_i).to be > 0
+      end
+    end
+    
+    context "session being changed is past the expiry" do
+      it "adds to ActiveRecord errors" do
+        Timecop.freeze(1.year.ago) do
+          subject
+          subject.update_attributes skills: "2.1.1"
+        end
+        
+        expect(subject.errors[:processing_expiry]).not_to be_empty
+      end
+    end
+    context "session being changed is past the processing max" do
+      it "adds to ActiveRecord errors" do
+        subject
+        stub_const("Session::PROCESSING_MAX", 3)
+        3.times { create :session, {user: user} }
+        subject.update_attributes skills: "2.1.1"
+        
+        expect(subject.errors[:processing_max]).not_to be_empty
+      end
+    end
+
   end
   
 end
