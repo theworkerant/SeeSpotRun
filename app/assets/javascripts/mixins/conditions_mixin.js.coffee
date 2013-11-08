@@ -15,21 +15,21 @@ SeeSpotRun.ConditionsMixin = Em.Mixin.create
           content: condition.getProperties("id", "name", "category", "difficulty", "point_basis")
       ,@
   
-  restrictions_mask: Em.computed ->
+  restrictionsMask: Em.computed ->
     if @get("restrictions") then Bitmask.decode(@get("restrictions"),"condition") else SeeSpotRun.get("emptyConditionsMask")
   .property("restrictions")
   
   activeMask: Em.computed ->
-    Bitmask.activeComparison(@get("conditions_mask"), @get("restrictions_mask"))
-  .property("conditions_mask", "restrictions_mask")
+    Bitmask.activeComparison(@get("conditionsMask"), @get("restrictionsMask"))
+  .property("conditionsMask", "restrictionsMask")
   
   conditions: Em.computed ->
     ids = []
     self = @
-    # console.log  "restrictions mask: #{self.get("restrictions_mask")}"
-    # console.log  "conditions mask: #{self.get("conditions_mask")}"
+    # console.log  "restrictions mask: #{self.get("restrictionsMask")}"
+    # console.log  "conditions mask: #{self.get("conditionsMask")}"
     # console.log  "active mask: #{self.get("activeMask")}"
-    for pos in [0..(@get("conditions_mask").length-1)]
+    for pos in [0..(@get("conditionsMask").length-1)]
       ids.push(SeeSpotRun.get("conditionsIdMap")[pos]) if parseInt(self.get("activeMask")[pos])
       
     @get("allConditions").filter (condition) -> ids.contains(parseInt(condition.get("id")))
@@ -53,10 +53,10 @@ SeeSpotRun.ConditionsMixin = Em.Mixin.create
   unrestrictedConditions: Em.computed ->
     ids = []
     self = @
-    for pos in [0..(@get("restrictions_mask").length-1)]
-      ids.push(SeeSpotRun.get("conditionsIdMap")[pos]) unless parseInt(self.get("restrictions_mask")[pos])
+    for pos in [0..(@get("restrictionsMask").length-1)]
+      ids.push(SeeSpotRun.get("conditionsIdMap")[pos]) unless parseInt(self.get("restrictionsMask")[pos])
       
     @get("allConditions").filter (condition) -> ids.contains(parseInt(condition.get("id")))
-  .property("restrictions_mask")
+  .property("restrictionsMask")
   
   # controlConditions: Em.computed(-> @get("allConditions").filterProperty("category", "controls") ).property("allConditions")

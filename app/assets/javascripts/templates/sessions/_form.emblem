@@ -19,9 +19,9 @@ form.form-inline submit="save"
       each skill in skills
         h5= skill.name
 
-        / small= skill.conditions_mask
+        / small= skill.conditionsMask
         / br
-        / small= skill.restrictions_mask
+        / small= skill.restrictionsMask
         / br
         strong Controls
         div: each condition in skill.controlConditions

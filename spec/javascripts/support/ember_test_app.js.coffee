@@ -11,6 +11,6 @@ DS.rejectionHandler = (reason) ->
   throw reason
 
 Ember.FEATURES["query-params"] = true
-  
+
 window.SeeSpotRun = Ember.Application.create
-  rootElement: "#ember-app"
+  rootElement: "body"

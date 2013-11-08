@@ -5,7 +5,6 @@ Ember.Application.initializer
     
     # Skill Mask Mappings
     SeeSpotRun.set("skillsIdMap", window.bootstrap_skills_map)
-    SeeSpotRun.set("skillsNameMap", window.boostrap_skills_names)
     empty_mask = ""
     for i in [1..window.bootstrap_skills_map.length]
       empty_mask = empty_mask + "0"
@@ -13,7 +12,6 @@ Ember.Application.initializer
     
     # Condition Mask Mappings
     SeeSpotRun.set("conditionsIdMap", window.bootstrap_conditions_map)
-    SeeSpotRun.set("conditionsNameMap", window.bootstrap_conditions_names)
     empty_mask = ""
     for i in [1..window.bootstrap_conditions_map.length]
       empty_mask = empty_mask + "0"

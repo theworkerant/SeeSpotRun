@@ -11,6 +11,7 @@
 // about supported directives.
 //
 
+
 //= require lib/jquery-2.0.0
 //= require lib/jquery.cookie
 //= require lib/moment.min
@@ -42,3 +43,4 @@
 //= require_tree ./components
 //= require_tree ./helpers
 //= require_tree ./views
+

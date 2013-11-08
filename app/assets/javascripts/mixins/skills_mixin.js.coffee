@@ -2,21 +2,21 @@ SeeSpotRun.SkillsProxy = Em.ArrayProxy.extend()
 SeeSpotRun.SkillProxy = Em.ObjectProxy.extend
   selected: Em.computed ->
     index = SeeSpotRun.get("skillsIdMap").indexOf(parseInt(@get("id")))
-    if @session.get("skills_mask") and parseInt(@session.get("skills_mask")[index]) then true else false
-  .property("session.skills_mask")
+    if @session.get("skillsMask") and parseInt(@session.get("skillsMask")[index]) then true else false
+  .property("session.skillsMask")
   
 SeeSpotRun.SkillsMixin = Em.Mixin.create
 
   init: ->
     @_super()
-    
+
     @set "allSkills", SeeSpotRun.SkillsProxy.create
       content: @store.all("skill").map (skill) -> 
           
         SeeSpotRun.SkillProxy.extend(SeeSpotRun.ConditionsMixin).create
           store: @store
           session: @
-          conditions_mask: SeeSpotRun.get("emptyConditionsMask")
+          conditionsMask: SeeSpotRun.get("emptyConditionsMask")
           content: skill.getProperties("id", "name", "difficulty", "point_basis", "restrictions")
       ,@
 
@@ -34,35 +34,35 @@ SeeSpotRun.SkillsMixin = Em.Mixin.create
       else
         split[i] = Bitmask.decode(split[i], "condition")
       
-    @set("skill_conditions", split.slice(1))
-    @set("skills_mask", split[0])
+    @set("skillConditions", split.slice(1))
+    @set("skillsMask", split[0])
     
     active_index = 0
     @get("allSkills").forEach (skill) ->
       sindex = SeeSpotRun.get("skillsIdMap").indexOf(parseInt(skill.get("id")))
-      if parseInt(@get("skills_mask")[sindex])
-        skill.set "conditions_mask", @get("skill_conditions")[active_index]
+      if parseInt(@get("skillsMask")[sindex])
+        skill.set "conditionsMask", @get("skillConditions")[active_index]
         active_index++
       else
-        skill.set "conditions_mask", SeeSpotRun.get("emptyConditionsMask")
+        skill.set "conditionsMask", SeeSpotRun.get("emptyConditionsMask")
     ,@
 
     
   skills: Em.computed ->
     ids = []
-    for pos in [0..(@get("skills_mask").length-1)]
-      ids.push(SeeSpotRun.get("skillsIdMap")[pos]) if parseInt(@get("skills_mask")[pos])
+    for pos in [0..(@get("skillsMask").length-1)]
+      ids.push(SeeSpotRun.get("skillsIdMap")[pos]) if parseInt(@get("skillsMask")[pos])
       
     @get("allSkills").filter (skill) -> ids.contains(parseInt(skill.get("id")))
-  .property("skills_mask")
+  .property("skillsMask")
 
-  skills_mask_obs: Em.observer ->
-    encoded = Bitmask.encode(@get("skills_mask"))
-    @get("skills").forEach (skill) -> encoded += ".#{Bitmask.encode(skill.get("conditions_mask"))}" if skill.get("conditions_mask")
+  skillsMaskObs: Em.observer ->
+    encoded = Bitmask.encode(@get("skillsMask"))
+    @get("skills").forEach (skill) -> encoded += ".#{Bitmask.encode(skill.get("conditionsMask"))}" if skill.get("conditionsMask")
     @set("skills_encoded", encoded)
-  .observes("skills_mask","skills.@each.conditions_mask")
+  .observes("skillsMask","skills.@each.conditionsMask")
   
-  default_conditions_mask: Em.computed ->
+  defaultConditionsMask: Em.computed ->
     if @get("default_conditions_encoded") then Bitmask.decode(@get("default_conditions_encoded")) else SeeSpotRun.get("emptyConditionsMask")
   .property("default_conditions_encoded")
 
