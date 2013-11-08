@@ -50,6 +50,7 @@ group :test, :development do
   gem "capybara-webkit"
   gem "selenium-webdriver"
   gem "timecop"
+  gem "teaspoon"
 end
 
 group :doc do
