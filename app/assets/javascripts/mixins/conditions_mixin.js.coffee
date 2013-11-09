@@ -15,7 +15,7 @@ SeeSpotRun.ConditionsMixin = Em.Mixin.create
   .property("restrictions")
   
   activeMask: Em.computed ->
-    Bitmask.activeComparison(@get("conditionsMask"), @get("restrictionsMask"))
+    Bitmask.activeWithRestrictions(@get("conditionsMask"), @get("restrictionsMask"))
   .property("conditionsMask", "restrictionsMask")
   
   conditions: Em.computed ->

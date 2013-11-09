@@ -18,7 +18,7 @@ window.Bitmask =
       mask = "0" + mask
     mask
 
-  activeComparison: (conditions, restrictions) ->
+  activeWithRestrictions: (conditions, restrictions) ->
     index   = 0
     result  = ""
     
