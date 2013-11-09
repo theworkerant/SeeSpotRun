@@ -18,7 +18,6 @@
 //= require lib/progress_bar
 //= require lib/bootstrap
 //= require lib/bignumber
-//= require lib/bitmask
 //= require lib/uuid
 
 

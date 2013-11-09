@@ -1,4 +1,4 @@
-if use_pusher
+if rails_env isnt "test"
   Ember.Application.initializer
     name: "pusher"
   

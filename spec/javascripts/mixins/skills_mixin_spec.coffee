@@ -5,6 +5,9 @@ describe "SkillsMixin", ->
       T.model = setupSession()
       expect(T.model.get("allSkills.length")).to.be.eq SeeSpotRun.get("skillsIdMap.length")
       
+    it "sets #defaultConditionsMask", ->
+      
+      
   describe "#decodeSkills", ->
     
     beforeEach -> T.model = setupSession(sit_and_come_with_leash)
