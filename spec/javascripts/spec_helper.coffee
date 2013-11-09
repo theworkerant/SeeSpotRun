@@ -4,7 +4,6 @@
 # = require lib/progress_bar
 # = require lib/bootstrap
 # = require lib/bignumber
-# = require lib/bitmask
 # = require lib/uuid
 
 # Normally loaded via DOM
@@ -33,6 +32,7 @@
 # = require_tree ../../app/assets/javascripts/helpers
 # = require_tree ../../app/assets/javascripts/views
 
+# = require support/helpers
 # = require support/chai
 # = require support/chai-jquery
 window.expect = chai.expect
@@ -62,15 +62,14 @@ SeeSpotRun.setupForTesting()
 # Returns a promise that fulfills when all async behavior is complete.
 SeeSpotRun.injectTestHelpers()
 
-window.lookupStore  = -> SeeSpotRun.__container__.lookup 'store:main'
-window.lookupRouter = -> SeeSpotRun.__container__.lookup 'router:main'
-
-$("body").attr("style", "> .ember-view {display:none;}")
-
 beforeEach (done) ->  
   # reset all test variables!
   window.Test = {}
   window.T    = Test
+  
+  test_root = "test-#{(new Date).getTime()}"
+  $("body").append("<div id=#{test_root} style='display:none;'></div>")
+  SeeSpotRun.rootElement = "##{test_root}"
   
   Ember.run ->
     SeeSpotRun.advanceReadiness()
@@ -78,6 +77,8 @@ beforeEach (done) ->
       T.store   = lookupStore()
       T.router  = lookupRouter()
       done() # When App readiness promise resolves, setup is complete  
-    
+      
 afterEach ->
   Em.run -> SeeSpotRun.reset()
+  
+

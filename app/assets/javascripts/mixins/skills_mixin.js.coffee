@@ -1,16 +1,9 @@
-SeeSpotRun.SkillsProxy = Em.ArrayProxy.extend()
-SeeSpotRun.SkillProxy = Em.ObjectProxy.extend
-  selected: Em.computed ->
-    index = SeeSpotRun.get("skillsIdMap").indexOf(parseInt(@get("id")))
-    if @session.get("skillsMask") and parseInt(@session.get("skillsMask")[index]) then true else false
-  .property("session.skillsMask")
-  
+# SeeSpotRun.SkillsProxy = Em.ArrayProxy.extend()  
 SeeSpotRun.SkillsMixin = Em.Mixin.create
-
   init: ->
     @_super()
 
-    @set "allSkills", SeeSpotRun.SkillsProxy.create
+    @set "allSkills", Em.ArrayProxy.create
       content: @store.all("skill").map (skill) -> 
           
         SeeSpotRun.SkillProxy.extend(SeeSpotRun.ConditionsMixin).create

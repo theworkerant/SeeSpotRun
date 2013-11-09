@@ -47,10 +47,10 @@ Teaspoon.setup do |config|
     # If you want to change how Teaspoon looks, or include your own stylesheets you can do that here. The default is the
     # stylesheet for the HTML reporter.
     suite.stylesheets = ["teaspoon"]
-    
+
     # When running coverage reports, you probably want to exclude libraries that you're not testing.
     # Accepts an array of filenames or regular expressions. The default is to exclude assets from vendors or gems.
-    suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)_helper.}]
+    suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)_helper.}, %r{/assets/javascripts/lib}, %r{/spec}, %r{/assets/javascripts/initializers}, %r{/assets/javascripts/templates}]
     # suite.no_coverage << "jquery.min.js" # excludes jquery from coverage reports
 
   end

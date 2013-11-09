@@ -16,6 +16,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/coverage
 
 /config/database.yml
 /config/initializers/environment_vars.rb

@@ -23,12 +23,12 @@ Teaspoon.setup do |config|
   #config.fail_fast           = true # abort after the first failing suite
 
   # Output
-  #config.formatters          = "dot" # available: dot, tap, tap_y, swayze_or_oprah
-  #config.suppress_log        = false # suppress logs coming from console[log/error/debug]
+  config.formatters          = "dot" # available: dot, tap, tap_y, swayze_or_oprah
+  config.suppress_log        = true # suppress logs coming from console[log/error/debug]
   #config.color               = true
 
   # Coverage (requires istanbul -- https://github.com/gotwarlost/istanbul)
-  #config.coverage            = true
-  #config.coverage_reports    = "text,html,cobertura"
-  #config.coverage_output_dir = "coverage"
+  config.coverage            = true
+  config.coverage_reports    = "text,html,cobertura"
+  config.coverage_output_dir = "coverage"
 end

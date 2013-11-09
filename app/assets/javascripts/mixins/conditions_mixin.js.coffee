@@ -1,16 +1,11 @@
-SeeSpotRun.ConditionProxy = Em.ObjectProxy.extend
-  selected: Em.computed ->
-    index = SeeSpotRun.get("conditionsIdMap").indexOf(parseInt(@get("id")))
-    if parseInt(@get("skill.activeMask")[index]) then true else false
-  .property("skill.activeMask")
-
 SeeSpotRun.ConditionsMixin = Em.Mixin.create
   init: ->
     @_super()
     
+    @set "conditionsMask", SeeSpotRun.get("emptyConditionsMask")
     @set "allConditions", Em.ArrayProxy.create
       content: @store.all("condition").map (condition) -> 
-        SeeSpotRun.ConditionProxy.create
+        obj=SeeSpotRun.ConditionProxy.create
           skill: @
           content: condition.getProperties("id", "name", "category", "difficulty", "point_basis")
       ,@
@@ -26,9 +21,6 @@ SeeSpotRun.ConditionsMixin = Em.Mixin.create
   conditions: Em.computed ->
     ids = []
     self = @
-    # console.log  "restrictions mask: #{self.get("restrictionsMask")}"
-    # console.log  "conditions mask: #{self.get("conditionsMask")}"
-    # console.log  "active mask: #{self.get("activeMask")}"
     for pos in [0..(@get("conditionsMask").length-1)]
       ids.push(SeeSpotRun.get("conditionsIdMap")[pos]) if parseInt(self.get("activeMask")[pos])
       
@@ -39,13 +31,13 @@ SeeSpotRun.ConditionsMixin = Em.Mixin.create
     @get("unrestrictedConditions").mapBy("category").uniq()
   .property("unrestrictedConditions")
   
-  conditionsForCategories: Em.observer ->
+  conditionsByCategories: Em.observer ->
     self = @
     @get("categoriesAvailable").forEach (category) ->
       singular_match = category.match(/(.*?)[s]$/)
       singular = if singular_match then singular_match[1] else category
       Em.defineProperty self, "#{singular}Conditions", Ember.computed( ->
-       @get("unrestrictedConditions").filterProperty "category", category
+        @get("unrestrictedConditions").filterProperty "category", category
       ).property("#{category}.[]")
       
   .observes("unrestrictedConditions").on("init")

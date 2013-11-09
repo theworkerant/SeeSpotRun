@@ -8,7 +8,7 @@ SeeSpotRun.Router.map ->
       
 SeeSpotRun.IndexRoute = Em.Route.extend
   # model: -> @store.find("session")
-  enter: -> @get("pusher").subscribe("sessions")
+  # enter: -> @get("pusher").subscribe("sessions")
   setupController: (controller, model) ->
     controller.set "content", model
     @setupAjax()
