@@ -1,5 +1,5 @@
 class Session < ActiveRecord::Base
-  include GameStats
+  include Game
   PROCESSING_EXPIRY = 2.weeks.ago
   PROCESSING_MAX  = 10
   

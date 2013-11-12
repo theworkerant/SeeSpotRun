@@ -1,7 +1,7 @@
 require "spec_helper"
 
-class DummyClass; include GameStats; end
-describe GameStats do
+class DummyClass; include Game; end
+describe Game::Stats do
   subject { DummyClass.new() }
   
   describe "#point_tally" do
@@ -193,5 +193,26 @@ describe GameStats do
     end
   end
   
+  describe "#skill_high_score" do
+    let(:user) { build(:user) }
+    let(:skill) { create(:skill) }
+    let(:key) { "user:#{user.id}:high_score:#{skill.id}" } 
+    
+    it "saves the highest score for each skill" do
+      subject.skill_high_score user, skill, 5
+      expect(REDIS.get(key)).to eq "5"
+      subject.skill_high_score user, skill, 10
+      expect(REDIS.get(key)).to eq "10"
+    end
+    
+    context "reversal" do
+      it "sets the score to 0" do
+        subject.skill_high_score user, skill, 5
+        subject.skill_high_score user, skill, 10
+        subject.skill_high_score user, skill, 10, reverse:true
+        expect(REDIS.get(key)).to eq "0"
+      end
+    end
+  end
   
 end
