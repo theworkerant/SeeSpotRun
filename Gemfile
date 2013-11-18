@@ -51,6 +51,7 @@ group :test, :development do
   gem "selenium-webdriver"
   gem "timecop"
   gem "teaspoon"
+  gem "simplecov"
 end
 
 group :doc do

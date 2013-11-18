@@ -1,19 +1,13 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :edit, :update, :destroy]
   
-  # respond_to :json
-
   def index
     @sessions = Session.all
-    render json: @sessions
+    respond_with @sessions
   end
 
   def show
-    render json: @session
-  end
-
-  def new
-    @session = Session.new
+    respond_with @session
   end
 
   def edit
